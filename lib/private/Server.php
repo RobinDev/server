@@ -463,16 +463,6 @@ class Server extends ServerContainer {
 				$c->get(LoggerInterface::class),
 				$c->get(IEventDispatcher::class),
 			);
-			$dispatcher = $this->get(IEventDispatcher::class);
-			$dispatcher->addListener(UserLoggedInEvent::class, function (UserLoggedInEvent $event): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $event->getUser()->getUID(), 'loginName' => $event->getLoginName(), 'password' => $event->getPassword(), 'isTokenLogin' => $event->isTokenLogin()]);
-			});
-
-			$dispatcher->addListener(UserLoggedInWithCookieEvent::class, function (UserLoggedInWithCookieEvent $event): void {
-				/** @var User $user */
-				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $event->getUser()->getUID(), 'password' => $event->getPassword()]);
-			});
 
 			return $userSession;
 		});
